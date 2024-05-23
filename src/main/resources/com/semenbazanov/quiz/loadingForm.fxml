@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.semenbazanov.quiz.controllers.LoadingForm">
+   <children>
+      <TextField fx:id="numberOfQuestions" layoutX="72.0" layoutY="56.0" prefHeight="26.0" prefWidth="594.0" />
+      <Label layoutX="340.0" layoutY="31.0" prefHeight="18.0" prefWidth="119.0" text="Number of Questions" />
+      <ComboBox fx:id="categoryBox" layoutX="97.0" layoutY="153.0" prefHeight="108.0" prefWidth="150.0" />
+      <ComboBox fx:id="difficultyBox" layoutX="444.0" layoutY="153.0" prefHeight="108.0" prefWidth="150.0" />
+      <Label layoutX="130.0" layoutY="111.0" text="Select Category" />
+      <Label layoutX="478.0" layoutY="111.0" text="Select Difficulty" />
+      <Button layoutX="78.0" layoutY="390.0" mnemonicParsing="false" onAction="#toStart" prefHeight="95.0" prefWidth="225.0" text="Start" />
+      <Button layoutX="427.0" layoutY="390.0" mnemonicParsing="false" onAction="#toSave" prefHeight="95.0" prefWidth="226.0" text="Save" />
+   </children>
+</AnchorPane>
