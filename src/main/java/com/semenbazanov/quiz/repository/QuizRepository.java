@@ -61,11 +61,8 @@ public class QuizRepository {
             result.setIncorrectAnswers(res);
         }
 
-        //TODO произвести сохранения объекта this.quiz в файл в формате json
         try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file))) {
             this.objectMapper.writeValue(bufferedOutputStream, this.quiz);
         }
     }
-
-
 }

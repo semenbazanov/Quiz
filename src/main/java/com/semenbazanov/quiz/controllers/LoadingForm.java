@@ -104,7 +104,13 @@ public class LoadingForm {
             App.showAlert("Error", "Не выбрано кол-во вопросов", Alert.AlertType.ERROR);
             return;
         }
-        int count = Integer.parseInt(this.numberOfQuestions.getText());
+        int count;
+        try {
+           count = Integer.parseInt(this.numberOfQuestions.getText());
+        } catch (NumberFormatException e) {
+            App.showAlert("Error", "Введите число", Alert.AlertType.ERROR);
+            return;
+        }
         if (count == 0) {
             App.showAlert("Error", "Не выбрано кол-во вопросов", Alert.AlertType.ERROR);
             return;
@@ -135,7 +141,6 @@ public class LoadingForm {
         } catch (Exception e) {
             App.showAlert("Error", "Ошибка обращения к серверу", Alert.AlertType.ERROR);
         }
-
     }
 }
 

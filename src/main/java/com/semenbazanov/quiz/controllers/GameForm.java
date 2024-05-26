@@ -42,29 +42,20 @@ public class GameForm implements ControllerData<Quiz> {
             this.tabPane.getTabs().add(tab);
 
             VBox vBox = new VBox();
-
             vBox.getChildren().add(new Label(this.results.get(i).getQuestion()));
 
             ToggleGroup toggleGroup = new ToggleGroup();
             ArrayList<String> answers = new ArrayList<>(this.results.get(i).getIncorrectAnswers());
             answers.add(this.results.get(i).getCorrectAnswer());
-            //TODO накопить правильные и неправильные ответы в список
             Collections.shuffle(answers);
             for (int j = 0; j < answers.size(); j++) {
                 RadioButton radioButton = new RadioButton(answers.get(j));
                 radioButton.setToggleGroup(toggleGroup);
                 int finalI = i;
                 int finalJ = j;
-                radioButton.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent actionEvent) {
-                        //TODO сохоанить номер вкладки и выбранный ответ в словпоь
-                        ans.put(finalI, answers.get(finalJ));
-                    }
-                });
+                radioButton.setOnAction(actionEvent -> ans.put(finalI, answers.get(finalJ)));
                 vBox.getChildren().add(radioButton);
             }
-
             tab.setContent(vBox);
         }
 
@@ -95,23 +86,21 @@ public class GameForm implements ControllerData<Quiz> {
                     stringBuilder.append("\n");
                     Preferences preferences = Preferences.userRoot();
                     boolean checkbox_is_selected = preferences.getBoolean("checkbox", false);
-                    if (checkbox_is_selected == true){
+                    if (checkbox_is_selected == true) {
                         for (int i = 0; i < results.size(); i++) {
-                            if (ans.get(i).equals(results.get(i).getCorrectAnswer())){
+                            if (ans.get(i).equals(results.get(i).getCorrectAnswer())) {
                                 vBox.getChildren().add(new Label("Q " + (i + 1) + "+ " + results.get(i).getCorrectAnswer()));
                                 correct++;
                                 stringBuilder.append("Q " + (i + 1) + "+ " + results.get(i).getCorrectAnswer());
                                 stringBuilder.append("\n");
-                            }
-                            else {
+                            } else {
                                 vBox.getChildren().add(new Label("Q " + (i + 1) + "- " + results.get(i).getCorrectAnswer()));
                                 incorrect++;
                                 stringBuilder.append("Q " + (i + 1) + "- " + results.get(i).getCorrectAnswer());
                                 stringBuilder.append("\n");
                             }
                         }
-                    }
-                    else {
+                    } else {
                         for (int i = 0; i < results.size(); i++) {
                             if (ans.get(i).equals(results.get(i).getCorrectAnswer())) {
                                 vBox.getChildren().add(new Label("Q " + (i + 1) + "+"));
@@ -139,22 +128,21 @@ public class GameForm implements ControllerData<Quiz> {
         });
         vBox.getChildren().add(buttonCheck);
 
-        buttonSave.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                FileChooser fileChooser = new FileChooser();
-                FileChooser.ExtensionFilter extensionFilter1 = new FileChooser.ExtensionFilter("TXT (*.txt)", "*.txt");
-                fileChooser.getExtensionFilters().add(extensionFilter1);
+        buttonSave.setOnAction(actionEvent -> {
+            FileChooser fileChooser = new FileChooser();
+            FileChooser.ExtensionFilter extensionFilter1 = new FileChooser.ExtensionFilter("TXT (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extensionFilter1);
 
-                File file = fileChooser.showSaveDialog(null);
-                String s = stringBuilder.toString();
-                if (!s.isEmpty()){
-                    try {
-                        ResultRepository resultRepository = new ResultRepository(s);
-                        resultRepository.save(file);
-                    } catch (IOException e) {
-                        System.out.println(e.getMessage());
-                    }
+            File file = fileChooser.showSaveDialog(null);
+            String s = stringBuilder.toString();
+            if (!s.isEmpty()) {
+                try {
+                    ResultRepository resultRepository = new ResultRepository(s);
+                    resultRepository.save(file);
+                } catch (NullPointerException e) {
+                    App.showAlert("Error", "Ошибка сохранения файла", Alert.AlertType.ERROR);
+                } catch (IOException e) {
+                    App.showAlert("Error", e.getMessage(), Alert.AlertType.ERROR);
                 }
             }
         });

@@ -15,7 +15,7 @@ public class MainForm {
 
     public CheckBox checkBoxAnswer;
 
-    public void initialize(){
+    public void initialize() {
         Preferences preferences = Preferences.userRoot();
         this.checkBoxAnswer.setSelected(preferences.getBoolean("checkbox", false));
     }
@@ -53,9 +53,10 @@ public class MainForm {
         File file = fileChooser.showOpenDialog(null);
         if (file != null) {
             preferences.put("key", file.getParent());
-            QuizRepository quizRepository = new QuizRepository(file);
             try {
+                QuizRepository quizRepository = new QuizRepository(file);
                 App.openWindow("gameForm.fxml", "Game form", quizRepository.getQuiz());
+                App.closeWindow(actionEvent);
             } catch (IOException e) {
                 App.showAlert("Error", "Ошибка обращения к серверу", Alert.AlertType.ERROR);
             }
